@@ -40,7 +40,7 @@ export default class Modal {
 		this.modal.querySelector('.modal__title').textContent = modalTitle
 	}
 
-	setBody =(node) => {
+	setBody = (node) => {
 		this.modal.querySelector('.modal__body').innerHTML = node.outerHTML 
 	}
 	close() {

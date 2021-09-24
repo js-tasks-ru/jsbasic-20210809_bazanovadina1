@@ -9,6 +9,7 @@ export default class ProductGrid {
 		this.setSelectedProducts(products)
 		this.renderElem()
 		this.renderProductsCard()
+		this.elem.addEventListener('click', this.addInOrder)
 	}
 
 	renderElem() {
@@ -22,22 +23,10 @@ export default class ProductGrid {
 		this.productsGridInner = this.elem.querySelector('.products-grid__inner')
 	}
 	renderProductsCard() {
-		
-		this.productsGridInner.innerHTML = this.selectedProducts.map(item => {
-			return `
-				<div class="card">
-					<div class="card__top">
-						<img src="/assets/images/products/${item.image}" class="card__image" alt="product">
-						<span class="card__price">€${item.price.toFixed(2)}</span>
-					</div>
-					<div class="card__body">
-						<div class="card__title">${item.name}</div>
-						<button type="button" class="card__button">
-							<img src="/assets/images/icons/plus-icon.svg" alt="icon">
-						</button>
-					</div>
-				</div>
-			`})
+		this.productsGridInner.innerHTML = this.selectedProducts.map(item => {	
+			this.productCard = new ProductCard(item)
+			return this.productCard.elem.outerHTML
+			})
 			.join('')	
 	}
 	
@@ -85,5 +74,22 @@ export default class ProductGrid {
 		}
 		
 		this.renderProductsCard()
+	}
+	
+	addInOrder = (ev) => {
+		if (ev.target.closest('.card__button')) {
+	
+		const event = new CustomEvent("product-add", {
+			detail: 
+				this.selectedProducts.filter(item => {
+					if (item["name"] === ev.target.closest('.card__button').previousElementSibling.textContent) {
+						return item
+					}
+				})[0].id ,
+			bubbles: true
+		})
+
+		this.elem.dispatchEvent(event)
+		}
 	}
 }

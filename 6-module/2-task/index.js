@@ -2,7 +2,7 @@ import createElement from '../../assets/lib/create-element.js';
 export default class ProductCard {
   constructor(product) {
     this.elem = createElement(`
-      <div>
+      <div class="card">
         <div class="card__top">
           <img src="/assets/images/products/${product.image}" class="card__image" alt="product">
           <span class="card__price">€${product.price.toFixed(2)}</span>
@@ -14,8 +14,8 @@ export default class ProductCard {
           </button>
         </div>
       </div>`)
-      this.elem.addEventListener('click', this.addInOrder)
-      this.productId = product.id    
+    this.elem.addEventListener('click', this.addInOrder)
+    this.productId = product.id    
   }
   addInOrder = (ev) => {
     if (ev.target.closest('.card__button')) {
@@ -23,7 +23,7 @@ export default class ProductCard {
         detail: this.productId,
         bubbles: true
       })
-      this.elem.dispatchEvent(event)
+    this.elem.dispatchEvent(event)
     }
   }
 }

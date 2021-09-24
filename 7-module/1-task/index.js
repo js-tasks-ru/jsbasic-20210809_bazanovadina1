@@ -60,6 +60,7 @@ export default class RibbonMenu {
 
 	ribbonSelect = (ev) => {	
 		if (ev.target.tagName == 'A') {
+			ev.preventDefault()
 			for (let elem of this.ribbonInner.children ) {
 				elem.classList.remove('ribbon__item_active')
 			}

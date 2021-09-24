@@ -20,20 +20,22 @@ export default class Carousel {
     this.carouselInner.className = 'carousel__inner'
     this.elem.append(this.carouselInner)
 
-    for (let i = 0; i < this.slides.length; i++) {
-      this.slides[i] = createElement(`
-        <div class="carousel__slide" data-id="${slides[i].id}">
-          <img src="/assets/images/carousel/${slides[i].image}" class="carousel__img" alt="slide">
-          <div class="carousel__caption">
-            <span class="carousel__price">€${slides[i].price.toFixed(2)}</span>
-            <div class="carousel__title">${slides[i].name}</div>
-            <button type="button" class="carousel__button">
-              <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-            </button>
-          </div>
-        </div>`)
-        this.carouselInner.append(this.slides[i])
-    }
+    this.carouselInner.innerHTML = this.slides.map(item => {	
+			item = createElement(`
+      <div class="carousel__slide" data-id="${item.id}">
+        <img src="/assets/images/carousel/${item.image}" class="carousel__img" alt="slide">
+        <div class="carousel__caption">
+          <span class="carousel__price">€${item.price.toFixed(2)}</span>
+          <div class="carousel__title">${item.name}</div>
+          <button type="button" class="carousel__button">
+            <img src="/assets/images/icons/plus-icon.svg" alt="icon">
+          </button>
+        </div>
+      </div>`)
+			return item.outerHTML
+			})
+			.join('')
+      
     this.arrowRight.addEventListener('click', this.moveRight)
     this.arrowLeft.addEventListener('click', this.moveLeft)
     this.elem.addEventListener('click', this.hideCarouselArrow)
